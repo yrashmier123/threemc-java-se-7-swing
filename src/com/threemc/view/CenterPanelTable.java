@@ -149,11 +149,6 @@ public class CenterPanelTable extends JPanel {
 		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				loadfirst();
-				if(btnRefresh.isVisible()) {
-					
-				} else {
-					
-				}
 			}
 		});
 

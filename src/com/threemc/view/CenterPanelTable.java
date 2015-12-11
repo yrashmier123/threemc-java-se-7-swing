@@ -151,6 +151,8 @@ public class CenterPanelTable extends JPanel {
 				loadfirst();
 				if(btnRefresh.isVisible()) {
 					
+				} else {
+					
 				}
 			}
 		});

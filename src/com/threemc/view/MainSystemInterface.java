@@ -35,15 +35,16 @@ public class MainSystemInterface extends JFrame {
 	private MainFrameBottomPanelStatus panelBottom;
 	private MainFrameCenterPanel panelCenter;
 
-	private AdminAccount ad;
 	private BookingsList bookl;
+	private AdminAccount ad;
+	private Employees prof;
 	private Clients client;
 	private Bookings book;
 	private Packages pack;
 	private Payments pay;
+	private Outputs out;
 	private Reports rep;
 	private Logs log;
-	private Outputs out;
 
 	private ProgressbarDialog prog;
 
@@ -60,8 +61,7 @@ public class MainSystemInterface extends JFrame {
 
 		System.out.println(CheckAndCreateDatabase.checkDatabaseifExisting());
 
-		prog = new ProgressbarDialog(MainSystemInterface.this,
-				ModalityType.DOCUMENT_MODAL);
+		prog = new ProgressbarDialog(MainSystemInterface.this, ModalityType.APPLICATION_MODAL);
 
 		initUILookAndFeel();
 		set();
@@ -111,10 +111,8 @@ public class MainSystemInterface extends JFrame {
 			}
 
 			public void openPaymentAction() {
-				
 				prog.setIndeterminate(true);
 				prog.setVisible(true);
-				
 				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
 					protected Void doInBackground() throws Exception {
 						pay = new Payments(MainSystemInterface.this, Dialog.ModalityType.APPLICATION_MODAL);
@@ -122,12 +120,10 @@ public class MainSystemInterface extends JFrame {
 					}
 					
 					protected void done() {
-						prog.setIndeterminate(false);
-						prog.setVisible(false);
+						prog.dispose();
 						pay.setVisible(true);
 					}
 				};
-				
 				worker.execute();
 				
 			}
@@ -135,7 +131,6 @@ public class MainSystemInterface extends JFrame {
 			public void openPackagesAction() {
 				prog.setIndeterminate(true);
 				prog.setVisible(true);
-				
 				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
 					protected Void doInBackground() throws Exception {
 						pack = new Packages(MainSystemInterface.this, Dialog.ModalityType.APPLICATION_MODAL);
@@ -143,8 +138,7 @@ public class MainSystemInterface extends JFrame {
 					}
 					
 					protected void done() {
-						prog.setIndeterminate(false);
-						prog.setVisible(false);
+						prog.dispose();
 						pack.setVisible(true);
 					}
 				};
@@ -154,7 +148,6 @@ public class MainSystemInterface extends JFrame {
 			public void openOutputsAction() {
 				prog.setIndeterminate(true);
 				prog.setVisible(true);
-				
 				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
 					protected Void doInBackground() throws Exception {
 						out = new Outputs(MainSystemInterface.this, Dialog.ModalityType.APPLICATION_MODAL);
@@ -162,8 +155,7 @@ public class MainSystemInterface extends JFrame {
 					}
 					
 					protected void done() {
-						prog.setIndeterminate(false);
-						prog.setVisible(false);
+						prog.dispose();
 						out.setVisible(true);
 					}
 				};
@@ -179,7 +171,6 @@ public class MainSystemInterface extends JFrame {
 			public void openClientAction() {
 				prog.setIndeterminate(true);
 				prog.setVisible(true);
-				
 				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
 					protected Void doInBackground() throws Exception {
 						client = new Clients(MainSystemInterface.this, Dialog.ModalityType.APPLICATION_MODAL);
@@ -191,7 +182,6 @@ public class MainSystemInterface extends JFrame {
 						client.setVisible(true);
 					}
 				};
-				
 				worker.execute();
 			}
 
@@ -202,7 +192,6 @@ public class MainSystemInterface extends JFrame {
 			public void openBookingAction() {
 				prog.setIndeterminate(true);
 				prog.setVisible(true);
-
 				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
 					protected Void doInBackground() throws Exception {
 						book = new Bookings(MainSystemInterface.this,
@@ -224,7 +213,6 @@ public class MainSystemInterface extends JFrame {
 			public void openBookingListAction() {
 				prog.setIndeterminate(true);
 				prog.setVisible(true);
-				
 				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
 					protected Void doInBackground() throws Exception {
 						bookl = new BookingsList(MainSystemInterface.this, Dialog.ModalityType.APPLICATION_MODAL);
@@ -232,12 +220,10 @@ public class MainSystemInterface extends JFrame {
 					}
 					
 					protected void done() {
-						prog.setIndeterminate(false);
-						prog.setVisible(false);
+						prog.dispose();
 						bookl.setVisible(true);
 					}
 				};
-				
 				worker.execute();
 			}
 
@@ -255,9 +241,20 @@ public class MainSystemInterface extends JFrame {
 			}
 
 			public void openProfilingAction() {
-				Employees prof = new Employees(MainSystemInterface.this,
-						Dialog.ModalityType.APPLICATION_MODAL);
-				prof.setVisible(true);
+				prog.setIndeterminate(true);
+				prog.setVisible(true);
+				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+					protected Void doInBackground() throws Exception {
+						prof = new Employees(MainSystemInterface.this, Dialog.ModalityType.APPLICATION_MODAL);
+						return null;
+					}
+					
+					protected void done() {
+						prog.dispose();
+						prof.setVisible(true);
+					}
+				};
+				worker.execute();
 			}
 		});
 

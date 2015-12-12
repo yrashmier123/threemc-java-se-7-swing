@@ -50,7 +50,14 @@ public class MainFrameTopPanelButtons extends JToolBar implements ActionListener
 		initUI();
 		layoutComponents();
 
-		btnNewBooking.setMnemonic(KeyEvent.VK_F1);
+		btnClientList.setMnemonic(KeyEvent.VK_1);
+		btnNewBooking.setMnemonic(KeyEvent.VK_2);
+		btnBookings.setMnemonic(KeyEvent.VK_3);
+		btnPackages.setMnemonic(KeyEvent.VK_4);
+		btnPayment.setMnemonic(KeyEvent.VK_5);
+		btnOutputs.setMnemonic(KeyEvent.VK_6);
+		btnReports.setMnemonic(KeyEvent.VK_7);
+		btnProfiling.setMnemonic(KeyEvent.VK_8);
 	}
 
 	private void layoutComponents() {

@@ -51,6 +51,7 @@ public class MainFrameCenterPanel extends JPanel {
 	
 	public void setParent(JFrame parent) {
 		panelFeats.setParent(parent);
+		panelTable.setParent(parent);
 	}
 
 	public void showIfEventisNow() {

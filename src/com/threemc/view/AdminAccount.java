@@ -68,7 +68,7 @@ public class AdminAccount extends Dialog {
 	private void layoutComponents() {
 		GridBagConstraints gc = new GridBagConstraints();
 
-		Insets inset = new Insets(5, 5, 5, 5);
+		Insets inset = new Insets(10, 10, 10, 10);
 
 		gc.weightx = 1;
 		gc.weighty = 0;
@@ -87,7 +87,7 @@ public class AdminAccount extends Dialog {
 	}
 
 	private void initUI() {
-		Font f = CustomFont.setFont("Tahoma", Font.BOLD, 25);
+		Font f = CustomFont.setFont("Tahoma", Font.PLAIN, 20);
 
 		btnLogout = new JButton("Log out");
 		btnLogout.setFont(f);

@@ -83,7 +83,7 @@ public class Clients extends Dialog {
 	private BookingEventInfo bookingInfo;
 	private Color colo = Color.decode("#ffd700");
 
-	private String category = "client_firstName";
+	private String category = "client_id";
 
 	private ArrayList<Client> clientList;
 
@@ -171,6 +171,8 @@ public class Clients extends Dialog {
 					category = "client_address";
 				} else if(cboType.getSelectedItem().equals("Contact no.")) {
 					category = "client_contactNo";
+				} else if(cboType.getSelectedItem().equals("Client ID")) {
+					category = "client_id";
 				}
 			}
 		});
@@ -352,6 +354,7 @@ public class Clients extends Dialog {
 		lblStatus = new JLabel("Status: ");
 
 		DefaultComboBoxModel<String> typemod = new DefaultComboBoxModel<String>();
+		typemod.addElement("Client ID");
 		typemod.addElement("First name");
 		typemod.addElement("Last name");
 		typemod.addElement("Middle name");

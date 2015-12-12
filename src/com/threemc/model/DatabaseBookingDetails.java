@@ -257,7 +257,9 @@ public class DatabaseBookingDetails {
 					+ "service_cost = ? " + "WHERE "
 					+ "service_name  = ? AND event_id = ? ";
 			updateStmt = con.prepareStatement(updateSql);
+			int c_id = 0;
 			for (ServicesWanted serv : dbServicesWanted) {
+				c_id = serv.getClient_id();
 				int client_id = serv.getClient_id();
 				int event_id = serv.getEvent_id();
 				int scid = serv.getScId();
@@ -294,8 +296,8 @@ public class DatabaseBookingDetails {
 					insertStmt.executeUpdate();
 				}
 			}
-			AddLog.addLog(Log.TITLE_PACKAGE, Log.SAVE_BOOKING_PACKAGE);
-			AddLog.addLog(Log.TITLE_SERVICES, Log.SAVE_BOOKING_SERVICES);
+			AddLog.addLog(Log.TITLE_PACKAGE, Log.SAVE_BOOKING_PACKAGE + " For Client with ID: " + c_id);
+			AddLog.addLog(Log.TITLE_SERVICES, Log.SAVE_BOOKING_SERVICES + " For Client with ID: " + c_id);
 		} catch (Exception e) {
 			AddLog.addLog(Log.TITLE_PACKAGE, Log.SAVE_BOOKING_PACKAGE_FAILED + " : " + e.getMessage());
 			AddLog.addLog(Log.TITLE_SERVICES, Log.SAVE_BOOKING_SERVICES_FAILED + " : " + e.getMessage());

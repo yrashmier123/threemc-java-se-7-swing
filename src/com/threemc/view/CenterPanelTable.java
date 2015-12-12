@@ -8,7 +8,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -22,7 +22,7 @@ import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
+import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -63,13 +63,11 @@ public class CenterPanelTable extends JPanel {
 	private JPanel panelCenter;
 	private JTextField txtSearch;
 
-	private JTextArea txtNoticeboard;
 	private JTextArea txtLog;
 
 	private JButton btnRefresh;
 	private JButton btnEvent;
 	private JButton btnEditnotice;
-	private JButton btnSavenotice;
 
 	private Timer timer;
 	private Timer timerLog;
@@ -86,12 +84,12 @@ public class CenterPanelTable extends JPanel {
 	private HomeData hd;
 	private String category = "c.client_firstName";
 
-	private SimpleDateFormat dateFormat = new SimpleDateFormat(
-			" MMMMM dd , yyyy - EEEEE");
+	private SimpleDateFormat dateFormat = new SimpleDateFormat(" MMMMM dd , yyyy - EEEEE");
 
 	private Font f3 = CustomFont.setFont("Tahoma", Font.PLAIN, 15);
 
 	private Notice not;
+	private JFrame parent;
 
 	public CenterPanelTable() {
 		setLayout();
@@ -115,6 +113,7 @@ public class CenterPanelTable extends JPanel {
 				}
 			}
 		});
+
 		txtSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (txtSearch.isFocusOwner()) {
@@ -158,36 +157,16 @@ public class CenterPanelTable extends JPanel {
 			}
 		});
 
+		//
 		btnEditnotice.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				btnEditnotice.setVisible(false);
-				btnSavenotice.setVisible(true);
-				txtNoticeboard.setEditable(true);
-				txtNoticeboard.setBackground(Color.WHITE);
-			}
-		});
-
-		btnSavenotice.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String date = dateFormat.format(new Date(System.currentTimeMillis()));
-				String desc = txtNoticeboard.getText();
-
-				Notice not = new Notice(date, desc);
-				try {
-					if(controllerb.connect().equals("ok")) {
-						controllerb.saveNotice(not);
-						loadFirstNotice();
-						JOptionPane.showMessageDialog(CenterPanelTable.this, "Successfully saved Notice Board Message!", "Notice Board", JOptionPane.INFORMATION_MESSAGE);
-						btnSavenotice.setVisible(false);
-						btnEditnotice.setVisible(true);
-						txtNoticeboard.setEditable(false);
-						txtNoticeboard.setBackground(CustomColor.bgColor());
-					} else {
-						System.out.println(controllerb.connect());
-					}
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
+//				btnEditnotice.setVisible(false);
+//				btnSavenotice.setVisible(true);
+//				txtNoticeboard.setEditable(true);
+//				txtNoticeboard.setBackground(Color.WHITE);
+				
+				Notices not = new Notices(parent, ModalityType.APPLICATION_MODAL);
+				not.setVisible(true);
 			}
 		});
 
@@ -327,21 +306,6 @@ public class CenterPanelTable extends JPanel {
 		}
 	}
 
-	private void loadFirstNotice() {
-		try {
-			if(controllerb.connect().equals("ok")) {
-				not = controllerb.loadLastNotice();
-				if(not != null) {
-					StringBuffer msg = new StringBuffer();
-					msg.append(not.getDesc());
-					txtNoticeboard.setText(msg.toString());
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 	private void reloadfirst() {
 		try {
 			if (controllerb.connect().equals("ok")) {
@@ -476,47 +440,31 @@ public class CenterPanelTable extends JPanel {
 		txtSearch.setFont(f);
 
 		btnEditnotice = new JButton("Edit Notice Board");
-		btnSavenotice = new JButton("Save Notice Board");
 		btnEvent = new JButton("Today's Event");
 		btnRefresh = new JButton("Refresh");
 
 		btnEditnotice.setFont(f);
-		btnSavenotice.setFont(f);
 		btnRefresh.setFont(f);
 		btnEvent.setFont(f);
-
-		btnSavenotice.setVisible(false);
 
 		panelSearch.add(txtSearch);
 		panelSearch.add(cboType);
 		panelSearch.add(btnRefresh);
 		panelSearch.add(btnEvent);
 		panelSearch.add(btnEditnotice);
-		panelSearch.add(btnSavenotice);
 
 		popMain = new JPopupMenu();
 		mniPackage = new JMenuItem("Show Complete Details for this Booking");
 
-		txtNoticeboard = new JTextArea(7,30);
-		txtNoticeboard.setFont(CustomFont.setFontTahomaPlain());
-		txtNoticeboard.setEditable(false);
-		txtNoticeboard.setBackground(CustomColor.bgColor());
-
-		txtLog = new JTextArea(5,30);
+		txtLog = new JTextArea(7,30);
 		txtLog.setFont(CustomFont.setFontTahomaPlain());
 		txtLog.setBackground(CustomColor.bgColor());
 		txtLog.setEditable(false);
-
-		String msg = "This is the Notice Board.\n\nYou can input reminders,notices or any "
-				+ "messages you want to pass\non to the staff that uses the\nThree McQueens "
-				+ "Eventi System for Staff/Employee";
-		txtNoticeboard.setText(msg);
 
 		popMain.add(mniPackage);
 
 		loadfirst();
 		loadLog();
-		loadFirstNotice();
 	}
 
 	private void layoutComponents() {
@@ -541,16 +489,16 @@ public class CenterPanelTable extends JPanel {
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED),
 				BorderLayout.CENTER);
 		
-		panelCenter.add(panelTable, BorderLayout.NORTH);
+		panelCenter.add(panelTable, BorderLayout.CENTER);
 
 //		gc.gridy++;
 //		gc.gridx = 0;
 
-		panelTxt.add(new JScrollPane(txtNoticeboard,
-				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
-
-		panelCenter.add(panelTxt, BorderLayout.CENTER);
+//		panelTxt.add(new JScrollPane(txtNoticeboard,
+//				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+//				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
+//
+//		panelCenter.add(panelTxt, BorderLayout.CENTER);
 
 //		gc.gridy++;
 //		gc.gridx = 0;
@@ -560,5 +508,10 @@ public class CenterPanelTable extends JPanel {
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.SOUTH);
 		
 		add(panelCenter, gc);
+	}
+
+	public void setParent(JFrame parent) {
+		this.parent = parent;
+		
 	}
 }

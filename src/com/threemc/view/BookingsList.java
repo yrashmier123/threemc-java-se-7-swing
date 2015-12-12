@@ -113,7 +113,7 @@ public class BookingsList extends Dialog {
 
 		try {
 			if(controller.connect().equals("ok")) {
-				controller.loadAllBookingRecord("Open" , "" , "");
+				controller.loadAllBookingRecord("" , "" , "");
 				bookingList = controller.getBooking();
 				table.setBookingList(bookingList);
 			} else {

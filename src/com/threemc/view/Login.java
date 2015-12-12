@@ -10,10 +10,12 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Window;
+import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,6 +28,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SwingWorker;
 
 import com.threemc.controller.ControllerForAdmin;
 import com.threemc.data.Admin;
@@ -49,6 +52,8 @@ public class Login extends Dialog {
 	private ControllerForAdmin controller;
 
 	private Admin admin;
+	
+	private ProgressbarDialog prog;
 
 	private SimpleDateFormat format = new SimpleDateFormat("MMMMM dd , yyyy hh:ss - EEEEE");
 
@@ -57,6 +62,8 @@ public class Login extends Dialog {
 		set(parent);
 		initUI();
 		layoutComponents();
+		
+		prog = new ProgressbarDialog(parent, modal);
 
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent arg0) {
@@ -101,16 +108,18 @@ public class Login extends Dialog {
 							if(controller.checkAdminUserAndPass(user, passa) == 1) {
 								admin = controller.getUser().get(0);
 								if(!admin.getAdminUserStatus().equals("Active")) {
-									JOptionPane.showMessageDialog(Login.this, "You have successfully Logged in!", "Welcome!", JOptionPane.INFORMATION_MESSAGE);
-									String date = format.format(System.currentTimeMillis());
-									int id = admin.getId();
-									controller.updateLastLogIn(id, date);
-									controller.updateUserStatus(id, "Active");
-//									controller.updateUserLogged(id, "true");
-									admin.setAdminUserStatus("Active");
-									Login.this.setVisible(false);
+									log();
 								} else {
-									JOptionPane.showMessageDialog(Login.this, "Account is Already Logged in!", "Error Logging in!", JOptionPane.ERROR_MESSAGE);
+									int okcancel = JOptionPane
+											.showConfirmDialog(
+													Login.this,
+													"Your account is Already Logged in!\n\nDo you you want to Continue?",
+													"Error Logging in!",
+													JOptionPane.YES_NO_OPTION,
+													JOptionPane.WARNING_MESSAGE);
+									if (okcancel == JOptionPane.YES_OPTION) {
+										log();
+									}
 								}
 							} else {
 								JOptionPane.showMessageDialog(Login.this, "Incorrect Username or password!", "Log in failed!", JOptionPane.ERROR_MESSAGE);
@@ -126,6 +135,27 @@ public class Login extends Dialog {
 				}
 			}
 		});
+	}
+	
+	private void log() throws SQLException {
+		final String date = format.format(System.currentTimeMillis());
+		prog.setIndeterminate(true);
+		prog.setVisible(true);
+		SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+			protected Void doInBackground() throws Exception {
+				int id = admin.getId();
+				controller.updateLastLogIn(id, date);
+				controller.updateUserStatus(id, "Active");
+				return null;
+			}
+			protected void done() {
+				admin.setAdminUserStatus("Active");
+				prog.dispose();
+				JOptionPane.showMessageDialog(Login.this, "You have successfully Logged in!", "Welcome!", JOptionPane.INFORMATION_MESSAGE);
+				Login.this.setVisible(false);
+			}
+		};
+		worker.execute();
 	}
 
 	public Admin getUser() {

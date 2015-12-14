@@ -27,7 +27,6 @@ public class Main {
 			}
 
 			protected void done() {
-//				mainSys.setJMenuBar(createMenuBar());
 				mainSys.setSize(1500, 800);
 				mainSys.setLocationRelativeTo(null);
 				mainSys.setMinimumSize(new Dimension(1500, 800));

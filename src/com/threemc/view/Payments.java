@@ -925,7 +925,7 @@ public class Payments extends Dialog {
 		btnSearch = new JButton("Search");
 		btnUpdatePayment = new JButton("Change Payment Info");
 		
-		btnSave.setFont(f);
+		btnSave.setFont(CustomFont.setFontTahomaBold());
 		btnShowHistory.setFont(f);
 		btnSearch.setFont(f);
 		btnUpdatePayment.setFont(f);

@@ -12,6 +12,7 @@ import com.threemc.view.CategoryGender;
 
 public class DatabaseClient {
 
+	private DatabaseConnection dbCon = new DatabaseConnection();
 	public ArrayList<Client> dbClientonly;
 	private Connection con;
 
@@ -22,7 +23,7 @@ public class DatabaseClient {
 	public String connect() throws Exception {
 		String msg = "";
 		try {
-			con = DatabaseConnection.connect();
+			con = dbCon.connect();
 			msg = "ok";
 		} catch (Exception e) {
 			msg = e.getMessage();
@@ -31,7 +32,7 @@ public class DatabaseClient {
 	}
 
 	public void disconnect() throws Exception {
-		con = DatabaseConnection.disconnect();
+		con = dbCon.disconnect();
 	}
 
 	public Connection getConnection() {

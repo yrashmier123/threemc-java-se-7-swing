@@ -11,17 +11,18 @@ import com.threemc.data.Log;
 
 public class DatabaseLogs {
 
-	private static Connection con;
+	private Connection con;
 	private ArrayList<Log> dbLog = new ArrayList<Log>();
+	private DatabaseConnection dbCon = new DatabaseConnection();
 
 	public DatabaseLogs() {
 
 	}
 
-	public static String connect() throws Exception {
+	public String connect() throws Exception {
 		String msg = "";
 		try {
-			con = DatabaseConnection.connect();
+			con = dbCon.connect();
 			msg = "ok";
 		} catch (Exception e) {
 			msg = e.getMessage();
@@ -30,14 +31,14 @@ public class DatabaseLogs {
 	}
 
 	public void disconnect() throws Exception {
-		con = DatabaseConnection.disconnect();
+		con = dbCon.disconnect();
 	}
 
 	public Connection getConnection() {
 		return con;
 	}
 
-	public static void saveLog(Log log) throws SQLException {
+	public void saveLog(Log log) throws SQLException {
 		String insertSql = "INSERT INTO logs"
 				+ "(user_id, log_title , "
 				+ "log_desc , log_datetime) "

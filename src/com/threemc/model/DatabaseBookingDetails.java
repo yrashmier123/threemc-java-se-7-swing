@@ -41,6 +41,8 @@ public class DatabaseBookingDetails {
 	private ArrayList<ServiceCategory> dbServiceCat;
 	private ArrayList<Notice> dbNotice;
 	private Connection con;
+	
+	private DatabaseConnection dbCon = new DatabaseConnection();
 
 	public DatabaseBookingDetails() {
 		dbClientOnly = new ArrayList<Client>();
@@ -59,7 +61,7 @@ public class DatabaseBookingDetails {
 	public String connect() throws Exception {
 		String msg = "";
 		try {
-			con = DatabaseConnection.connect();
+			con = dbCon.connect();
 			msg = "ok";
 		} catch (Exception e) {
 			msg = e.getMessage();
@@ -69,7 +71,7 @@ public class DatabaseBookingDetails {
 
 	// disconnect database
 	public void disconnect() throws Exception {
-		con = DatabaseConnection.disconnect();
+		con = dbCon.disconnect();
 	}
 
 	//ADD

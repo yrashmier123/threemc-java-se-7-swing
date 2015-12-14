@@ -14,6 +14,7 @@ import com.threemc.view.CategoryGender;
 
 public class DatabaseOutputModule {
 
+	private DatabaseConnection dbCon = new DatabaseConnection();
 	private ArrayList<Output> dbOutput;
 	private ArrayList<OutputsUpdate> dbOutputsUpdates;
 	private Connection con;
@@ -26,7 +27,7 @@ public class DatabaseOutputModule {
 	public String connect() throws Exception {
 		String msg = "";
 		try {
-			con = DatabaseConnection.connect();
+			con = dbCon.connect();
 			msg = "ok";
 		} catch (Exception e) {
 			msg = e.getMessage();
@@ -35,7 +36,7 @@ public class DatabaseOutputModule {
 	}
 
 	public void disconnect() throws Exception {
-		con = DatabaseConnection.disconnect();
+		con = dbCon.disconnect();
 	}
 
 	public Connection getConnection() {

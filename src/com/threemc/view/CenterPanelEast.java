@@ -168,8 +168,8 @@ public class CenterPanelEast extends JPanel {
 				System.out.println(controllero.connect());
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-			// System.out.println(e.getMessage());
+//			e.printStackTrace();
+			 System.out.println(e.getMessage());
 		}
 	}
 	
@@ -218,8 +218,8 @@ public class CenterPanelEast extends JPanel {
 						System.out.println(controllero.connect());
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
-					// System.out.println(e.getMessage());
+//					e.printStackTrace();
+					 System.out.println(e.getMessage());
 				}
 			}
 		});

@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
+import java.util.prefs.Preferences;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -20,13 +21,15 @@ import javax.swing.UIManager;
 
 import net.sf.dynamicreports.report.exception.DRException;
 
-import com.threemc.controller.ControllerForClients;
 import com.threemc.controller.ControllerForAdmin;
+import com.threemc.controller.ControllerForClients;
 import com.threemc.data.Admin;
 import com.threemc.data.HomeData;
 import com.threemc.events.AdminAccountListener;
 import com.threemc.events.MainFrameCenterPanelEventListener;
+import com.threemc.events.PrefsListener;
 import com.threemc.model.CheckAndCreateDatabase;
+import com.threemc.model.DatabaseConnection;
 
 public class MainSystemInterface extends JFrame {
 	// Date Started: 06/26/2015
@@ -54,19 +57,25 @@ public class MainSystemInterface extends JFrame {
 	private Admin user;
 	private Timer timer;
 
+	private DatabaseSettings ds;
+	
+	private Preferences prefs;
+	private DatabaseConnection dbCon = new DatabaseConnection();
+
 	// TODO
 	public MainSystemInterface() {
 		super("Three McQueens Eventi Automated System");
 		setLayout(new BorderLayout());
-
-		System.out.println(CheckAndCreateDatabase.checkDatabaseifExisting());
-
-		prog = new ProgressbarDialog(MainSystemInterface.this, ModalityType.APPLICATION_MODAL);
-
+		
+		prefs = Preferences.userRoot().node("db");
 		initUILookAndFeel();
 		set();
 		initVal();
 		layoutComponents();
+
+		System.out.println(CheckAndCreateDatabase.checkDatabaseifExisting());
+		
+		prog = new ProgressbarDialog(MainSystemInterface.this, ModalityType.APPLICATION_MODAL);
 
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
@@ -314,7 +323,7 @@ public class MainSystemInterface extends JFrame {
 
 	// TODO
 	private void set() {
-		setJMenuBar(createMenuBar());
+		setJMenuBar(createMenuBar(MainSystemInterface.this));
 //		setSize(1500, 800);
 //		setLocationRelativeTo(null);
 //		setMinimumSize(new Dimension(1500, 800));
@@ -323,7 +332,7 @@ public class MainSystemInterface extends JFrame {
 //		setVisible(true);
 	}
 
-	private JMenuBar createMenuBar() {
+	private JMenuBar createMenuBar(final JFrame parent) {
 		// parent menu bar
 		JMenuBar menuBar = new JMenuBar();
 
@@ -338,8 +347,33 @@ public class MainSystemInterface extends JFrame {
 				System.exit(0);
 			}
 		});
-
+		// TODO
 		JMenuItem mniDatabase = new JMenuItem("Databse Settings");
+		mniDatabase.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ds = new DatabaseSettings(parent, ModalityType.APPLICATION_MODAL);
+				ds.setPrefsListener(new PrefsListener() {
+					public void preferenceSet(String ip, String dbName, String username, String password, int port) {
+						prefs.put("dbname", dbName);
+						prefs.put("ip", ip);
+						prefs.put("username", username);
+						prefs.put("password", password);
+						prefs.putInt("port", 3306);
+						ds.dispose();
+					}
+				});
+
+				String ip = prefs.get("ip", "localhost");
+				String dbName = prefs.get("dbname", "threemcqueens");
+				String username = prefs.get("username", "root");
+				String password = prefs.get("password", "");
+				int port = prefs.getInt("port", 3306);
+				
+				ds.setDefaults(ip, dbName, username, password, port);
+				dbCon.setDefaults(prefs);
+				ds.setVisible(true);
+			}
+		});
 
 		// add item to file menu
 		mnFile.add(mniExit);
@@ -393,7 +427,6 @@ public class MainSystemInterface extends JFrame {
 		add(panelBottom, BorderLayout.SOUTH);
 	}
 
-	// TODO
 	private void initUILookAndFeel() {
 		// UI Look and Feel
 		try {

@@ -13,6 +13,7 @@ import com.threemc.data.ServiceList;
 
 public class DatabasePackageModule {
 
+	private DatabaseConnection dbCon = new DatabaseConnection();
 	public ArrayList<Package> dbPackageOnly;
 	public ArrayList<ServiceList> dbServiceList;
 	public ArrayList<Service> dbServices;
@@ -30,7 +31,7 @@ public class DatabasePackageModule {
 	public String connect() throws Exception {
 		String msg = "";
 		try {
-			con = DatabaseConnection.connect();
+			con = dbCon.connect();
 			msg = "ok";
 		} catch (Exception e) {
 			msg = e.getMessage();
@@ -39,7 +40,7 @@ public class DatabasePackageModule {
 	}
 
 	public void disconnect() throws Exception {
-		con = DatabaseConnection.disconnect();
+		con = dbCon.disconnect();
 	}
 
 	public Connection getConnection() {

@@ -827,7 +827,8 @@ public class BookingPackages extends JPanel {
 				System.out.println(controller.connect());
 			}
 		} catch (Exception e1) {
-			e1.printStackTrace();
+//			e1.printStackTrace();
+			System.out.println(e1.getMessage());
 		}
 
 		DefaultComboBoxModel<String> es = new DefaultComboBoxModel<String>();

@@ -11,6 +11,8 @@ import com.threemc.data.Admin;
 import com.threemc.data.User;
 
 public class DatabaseAdmin {
+	
+	private DatabaseConnection dbCon = new DatabaseConnection();
 
 	private ArrayList<Admin> dbAdmin;
 	private Connection con;
@@ -22,7 +24,7 @@ public class DatabaseAdmin {
 	public String connect() throws Exception {
 		String msg = "";
 		try {
-			con = DatabaseConnection.connect();
+			con = dbCon.connect();
 			msg = "ok";
 		} catch (Exception e) {
 			msg = e.getMessage();
@@ -31,7 +33,7 @@ public class DatabaseAdmin {
 	}
 
 	public void disconnect() throws Exception {
-		con = DatabaseConnection.disconnect();
+		con = dbCon.disconnect();
 	}
 
 	public int checkAdminUserAndPass(String username, String password) throws SQLException {

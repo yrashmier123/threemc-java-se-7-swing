@@ -18,6 +18,7 @@ import com.threemc.view.CategoryPaymentType;
 
 public class DatabasePaymentModule {
 
+	private DatabaseConnection dbCon = new DatabaseConnection();
 	public ArrayList<PaymentModuleData> dbPaymentDataWithBalance;
 	public ArrayList<PaymentModuleData> dbPaidPaymentData;
 	public ArrayList<PaymentHistory> dbPaymentHistory;
@@ -35,7 +36,7 @@ public class DatabasePaymentModule {
 	public String connect() throws Exception {
 		String msg = "";
 		try {
-			con = DatabaseConnection.connect();
+			con = dbCon.connect();
 			msg = "ok";
 		} catch (Exception e) {
 			msg = e.getMessage();
@@ -44,7 +45,7 @@ public class DatabasePaymentModule {
 	}
 
 	public void disconnect() throws Exception {
-		con = DatabaseConnection.disconnect();
+		con = dbCon.disconnect();
 	}
 
 	public Connection getConnection() {

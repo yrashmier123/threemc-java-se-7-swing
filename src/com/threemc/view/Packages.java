@@ -554,7 +554,6 @@ public class Packages extends Dialog {
 	private void refreshCboServiceList() {
 		refreshServiceData();
 		if(serviceList != null) {
-			System.out.println(serviceList.size());
 			DefaultComboBoxModel<String> ee = new DefaultComboBoxModel<String>();
 			for (int i = 0; i < serviceList.size(); i++) {
 				ServiceList list = serviceList.get(i);

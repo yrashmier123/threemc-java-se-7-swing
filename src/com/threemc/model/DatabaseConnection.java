@@ -25,39 +25,39 @@ public class DatabaseConnection {
 	private DatabaseSettings ds;
 
 	public DatabaseConnection() {
-		prefs = Preferences.userRoot().node("db");
-		
-		ip = prefs.get("ip", "localhost");
-		dbName = prefs.get("dbname", "threemcqueens");
-		dbUserName = prefs.get("username", "root");
-		dbPassword = prefs.get("password", "");
-		dbPort = prefs.get("port", ""+3306);
-
-		if(con == null) {
-
-			ds = new DatabaseSettings(null, ModalityType.APPLICATION_MODAL);
-			ds.setPrefsListener(new PrefsListener() {
-				public void preferenceSet(String ip, String dbName, String username, String password, int port) {
-					prefs.put("dbname", dbName);
-					prefs.put("ip", ip);
-					prefs.put("username", username);
-					prefs.put("password", password);
-					prefs.putInt("port", 3306);
-					ds.dispose();
-				}
-			});
-			
-			setDefaults(prefs);
-
-			ip = prefs.get("ip", "localhost");
-			dbName = prefs.get("dbname", "threemcqueens");
-			dbUserName = prefs.get("username", "root");
-			dbPassword = prefs.get("password", "");
-			dbPort = prefs.get("port", ""+3306);
-
-			ds.setDefaults(ip, dbName, dbUserName, dbPassword, Integer.parseInt(dbPort));
-			ds.setVisible(true);
-		}
+//		prefs = Preferences.userRoot().node("db");
+//		
+//		ip = prefs.get("ip", "localhost");
+//		dbName = prefs.get("dbname", "threemcqueens");
+//		dbUserName = prefs.get("username", "root");
+//		dbPassword = prefs.get("password", "");
+//		dbPort = prefs.get("port", ""+3306);
+//
+//		if(con == null) {
+//
+//			ds = new DatabaseSettings(null, ModalityType.APPLICATION_MODAL);
+//			ds.setPrefsListener(new PrefsListener() {
+//				public void preferenceSet(String ip, String dbName, String username, String password, int port) {
+//					prefs.put("dbname", dbName);
+//					prefs.put("ip", ip);
+//					prefs.put("username", username);
+//					prefs.put("password", password);
+//					prefs.putInt("port", 3306);
+//					ds.dispose();
+//				}
+//			});
+//			
+//			setDefaults(prefs);
+//
+//			ip = prefs.get("ip", "localhost");
+//			dbName = prefs.get("dbname", "threemcqueens");
+//			dbUserName = prefs.get("username", "root");
+//			dbPassword = prefs.get("password", "");
+//			dbPort = prefs.get("port", ""+3306);
+//
+//			ds.setDefaults(ip, dbName, dbUserName, dbPassword, Integer.parseInt(dbPort));
+//			ds.setVisible(true);
+//		}
 	}
 
 	public Connection connect() throws Exception {

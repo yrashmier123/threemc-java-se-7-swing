@@ -347,33 +347,9 @@ public class MainSystemInterface extends JFrame {
 				System.exit(0);
 			}
 		});
+
 		// TODO
 		JMenuItem mniDatabase = new JMenuItem("Databse Settings");
-		mniDatabase.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				ds = new DatabaseSettings(parent, ModalityType.APPLICATION_MODAL);
-				ds.setPrefsListener(new PrefsListener() {
-					public void preferenceSet(String ip, String dbName, String username, String password, int port) {
-						prefs.put("dbname", dbName);
-						prefs.put("ip", ip);
-						prefs.put("username", username);
-						prefs.put("password", password);
-						prefs.putInt("port", 3306);
-						ds.dispose();
-					}
-				});
-
-				String ip = prefs.get("ip", "localhost");
-				String dbName = prefs.get("dbname", "threemcqueens");
-				String username = prefs.get("username", "root");
-				String password = prefs.get("password", "");
-				int port = prefs.getInt("port", 3306);
-				
-				ds.setDefaults(ip, dbName, username, password, port);
-				dbCon.setDefaults(prefs);
-				ds.setVisible(true);
-			}
-		});
 
 		// add item to file menu
 		mnFile.add(mniExit);

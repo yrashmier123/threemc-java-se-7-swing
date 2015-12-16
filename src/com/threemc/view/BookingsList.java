@@ -113,7 +113,7 @@ public class BookingsList extends Dialog {
 
 		try {
 			if(controller.connect().equals("ok")) {
-				controller.loadAllBookingRecord("" , "" , "");
+				controller.loadAllBookingRecord("Open" , "Ongoing" , "");
 				bookingList = controller.getBooking();
 				table.setBookingList(bookingList);
 			} else {
@@ -691,6 +691,7 @@ public class BookingsList extends Dialog {
 		es.addElement("Close");
 
 		cboStatus.setModel(es);
+		cboStatus.setSelectedIndex(1);
 
 		DefaultComboBoxModel<String> ed = new DefaultComboBoxModel<String>();
 		ed.addElement("All");
@@ -699,6 +700,7 @@ public class BookingsList extends Dialog {
 		ed.addElement("Cancel");
 
 		cboStatusu.setModel(ed);
+		cboStatusu.setSelectedIndex(1);
 
 		DefaultComboBoxModel<String> ef = new DefaultComboBoxModel<String>();
 		ef.addElement("All");
@@ -768,5 +770,4 @@ public class BookingsList extends Dialog {
 		setIconImage(img);
 		setBackground(CustomColor.bgColor());
 	}
-
 }

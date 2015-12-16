@@ -448,8 +448,8 @@ public class Payments extends Dialog {
 				}
 			}
 		});
-	}
-	
+ 	}
+
 	private void setMessage(String msg, int type) {
 		lblMessage.setText(msg);
 		if(type == 0) {

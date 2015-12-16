@@ -18,11 +18,13 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.UIManager;
 
 import com.threemc.events.PrefsListener;
 
@@ -54,10 +56,11 @@ public class DatabaseSettings extends Dialog {
 		set(parent);
 		initUI();
 		layoutComponents();
+		initUILookAndFeel();
 
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent arg0) {
-				DatabaseSettings.this.dispose();
+				System.exit(0);
 			}
 		});
 
@@ -69,17 +72,29 @@ public class DatabaseSettings extends Dialog {
 				String pass = new String(txtPassword.getPassword()).trim();
 				int portNumber = (int)spnPort.getValue();
 				
+				JOptionPane.showMessageDialog(null, "If there are any changes made in the Database Connection Credentials. \nIt will take effect the next time you access the system.", "Database Connection", JOptionPane.INFORMATION_MESSAGE);
+				
 				if(listener != null) {
 					listener.preferenceSet(ip, dbname, user, pass, portNumber);
 				}
+				
+				
 			}
 		});
 
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				DatabaseSettings.this.dispose();
+				System.exit(0);
 			}
 		});
+	}
+	
+	private void initUILookAndFeel() {
+		try {
+			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+		} catch (Exception e) {
+
+		}
 	}
 
 	public void setDefaults(String ip, String dbName, String username, String password, int port) {
@@ -88,7 +103,6 @@ public class DatabaseSettings extends Dialog {
 		txtUsername.setText(username);
 		txtPassword.setText(password);
 		spnPort.setValue(port);
-		
 	}
 
 	public void setPrefsListener(PrefsListener prefsListener) {
@@ -195,7 +209,7 @@ public class DatabaseSettings extends Dialog {
 		panelButton.setBackground(CustomColor.bgColor());
 		panelButton.setBorder(BorderFactory.createEtchedBorder());
 
-		btnOk = new JButton("Ok");
+		btnOk = new JButton("Retry Connection");
 		btnCancel = new JButton("Cancel");
 		btnCancel.setMnemonic(KeyEvent.VK_ESCAPE);
 
@@ -222,12 +236,11 @@ public class DatabaseSettings extends Dialog {
 		txtPassword.setFont(f);
 	
 		txtIpAddress.setHorizontalAlignment(JTextField.RIGHT);
-		txtDatabase.setHorizontalAlignment(JTextField.RIGHT);
-		txtUsername.setHorizontalAlignment(JTextField.RIGHT);
-		txtPassword.setHorizontalAlignment(JTextField.RIGHT);
 
 		spinnerModel = new SpinnerNumberModel(3306, 0, 9999, 1);
 		spnPort = new JSpinner(spinnerModel);
+		
+		btnOk.setSelected(true);
 	}
 
 	private void set(final Window parent) {

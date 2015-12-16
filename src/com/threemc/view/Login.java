@@ -235,6 +235,9 @@ public class Login extends Dialog {
 
 		txtUser.setFont(f);
 		txtPass.setFont(f);
+		
+		txtUser.setHorizontalAlignment(JTextField.CENTER);
+		txtPass.setHorizontalAlignment(JTextField.CENTER);
 
 		btnLogin = new JButton("Log in");
 		btnCancel = new JButton("Exit");

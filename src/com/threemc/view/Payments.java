@@ -860,7 +860,7 @@ public class Payments extends Dialog {
 		
 		tabPane = new JTabbedPane();
 		tabPane.setFont(new Font("Tahoma", Font.BOLD, 16));
-		tabPane.add("Balance sheet", panelCenter);
+		tabPane.add("Balance List", panelCenter);
 		tabPane.add("Payment Record List", panelPaid);
 
 		tableModel = new PaymentTableModel();
